@@ -1,0 +1,5 @@
+<div ng-class="{'alert-warp': true, success: obj.success, failed: obj.fail, process: obj.process}">
+    <img src="/crawler/static/scripts/directives/loading.png" class="alert-loading" ng-show="obj.process">
+    <span ng-bind="obj.msg"></span>
+    <span class="glyphicon glyphicon-remove-circle close_btn" aria-hidden="true" ng-click="hide()" ng-if="!obj.process"></span>
+</div>

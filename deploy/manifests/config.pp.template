@@ -1,0 +1,47 @@
+class base {
+    $basedir = "$<path>"
+    $pkg_dir = "$<pkg_dir>"
+    $user = "$< user >"
+    $mod_ver = "$< version >"
+    $mod_name = "$< name >"
+    $tag = "$< tag >"
+
+    $job = regsubst($tag,'^.*_?job\.([a-zA-Z0-9\-]+)_?.*$','\1')
+    $resin_bin = "/home/work/resin/bin"
+    $log_base = "/home/work/log/${job}"
+
+
+    # app running control
+    # resin_without_watch-dog
+    $mod_start = "bash ${resin_bin}/resin_control -conf ${basedir}/WEB-INF/classes/resin.xml -server ${job} start"
+
+    $mod_proc_log = ["${log_base}/${job}.log", "${log_base}/${job}.stdout.log", "${log_base}/${job}.stderr.log" ]
+    $mod_run_log = "${log_base}/${job}.run.log"
+    
+    $run_dir="${basedir}/"
+    $run_env= {"JAVA_HOME" => "/usr/java/jdk1.7.0_67", "CLASSPATH" => ".:/usr/java/jdk1.7.0_67/jre/lib:/usr/java/jdk1.7.0_67/lib:/usr/java/jdk1.7.0_67/lib/tools.jar:/usr/java/jdk1.7.0_67/lib/dt.jar", "JAVA_OPTS" => ""}
+    $to_email = "chengshengbo@xiaomi.com"
+}
+
+class production-sd inherits base{                                     
+}
+
+class production-lg inherits base{
+    $run_env= {"JAVA_HOME" => "/usr/java/jdk1.7.0_67", "CLASSPATH" => ".:/usr/java/jdk1.7.0_67/jre/lib:/usr/java/jdk1.7.0_67/lib:/usr/java/jdk1.7.0_67/lib/tools.jar:/usr/java/jdk1.7.0_67/lib/dt.jar", "JAVA_OPTS" => " -Dzookeeper.servers.resourcefile=c3_zookeeper_servers.properties "}
+}
+
+class production-hh inherits base{
+    $run_env= {"JAVA_HOME" => "/usr/java/jdk1.7.0_67", "CLASSPATH" => ".:/usr/java/jdk1.7.0_67/jre/lib:/usr/java/jdk1.7.0_67/lib:/usr/java/jdk1.7.0_67/lib/tools.jar:/usr/java/jdk1.7.0_67/lib/dt.jar", "JAVA_OPTS" => " -Dzookeeper.servers.resourcefile=hh_zookeeper_servers.properties "}
+}
+
+class c3 inherits base{
+    $run_env= {"JAVA_HOME" => "/usr/java/jdk1.7.0_67", "CLASSPATH" => ".:/usr/java/jdk1.7.0_67/jre/lib:/usr/java/jdk1.7.0_67/lib:/usr/java/jdk1.7.0_67/lib/tools.jar:/usr/java/jdk1.7.0_67/lib/dt.jar", "JAVA_OPTS" => " -Dzookeeper.servers.resourcefile=c3_zookeeper_servers.properties "}
+}
+
+class staging inherits base{
+}
+
+class onebox inherits base{
+}
+
+class config inherits $<env> {}

@@ -1,0 +1,22 @@
+package com.xiaomi.zhibo.crawler.pb;
+message Comment {
+    required uint64 from_uid = 1; //发起评论人的ID
+    required string content = 2; //评论内容
+    required uint64 create_time = 3; // 创建时间
+    optional uint64 to_uid = 4; //被评论人ID
+    optional string from_nickname = 5; //发起评论人的昵称
+    optional string to_nickname = 6;  //被评论人昵称
+    optional bool is_good = 7; //是否优质评论
+}
+//cmd 1003: 批量增加评论
+message MultiCreateFeedCommentsReq
+{
+    required string feed_id = 1;
+    repeated Comment comments = 2;
+}
+
+message MultiCreateFeedCommentsRsp
+{
+required uint32 err_code = 1;
+optional string errMsg = 2;
+}

@@ -1,0 +1,50 @@
+<div class="table_div widget green">
+  <div class="widget-title">
+    <h4>
+      <span class="glyphicon glyphicon-list"aria-hidden="true" ></span>
+      <span class="table_h" ng-bind="mysqlMachineList.title"></span>
+    </h4>
+  </div>
+  <div class="widget-body">
+    <select class="form-control" ng-model="mysqlMachineSearch.searchKey.managerId" ng-options="rs.manager_id as rs.manager_name for rs in mysqlMachineSearch.mysqlCluster">
+      <option value="">选择MySQL集群</option>
+    </select>
+    <input type="text" class="form-control" id="exampleInputEmail3" placeholder="主机器名或IP" ng-model="mysqlMachineSearch.searchKey.ip">
+    <div class="table-warp machineTable">
+      <div mi-Tablehead head-content="mysqlMachineList.thead"></div>
+      <div class="table-body">
+        <table class="table table-striped mysqlRouterTable">
+          <tbody>
+            <tr ng-repeat="mysqlMachine in mysqlMachineListPage[curPage-1]">
+              <td class="td_twentyfive"><span ng-bind="mysqlMachine.manager_name"></span></td>
+              <td class="td_twentyfive">
+                <ul class="ip_ul">
+                  <span ng-bind="mysqlMachine.machine_host_name"></span>
+                  <li ng-bind="'IP：'  + mysqlMachine.machine_ip"></li>
+                </ul>
+              </td>
+              <td class="td_ten">
+                <span ng-bind="mysqlMachine.instance_count"></span>
+              </td>
+              <td class="td_redisRoutershili innerTable">
+                <div mi-Tablehead head-content="mysqlMachineList.mysqlInstantiation"></div>
+                <div class="table-body inner-table">
+                  <table class="table table-striped table_no_border">
+                    <tbody>
+                      <tr ng-repeat="li in mysqlMachine.instance_details">
+                        <td class="td_Thirtythree" ng-bind="$index+1"></td>
+                        <td class="td_Thirtythree" ng-bind="li.app_id"></td>
+                        <td class="td_Thirtythree" ng-bind="li.range_begin + '-' + li.range_end"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div mi-paging page-content="mysqlMachineListPage" current-page="curPage" current-listpage="showPage"></div>
+  </div>
+</div>

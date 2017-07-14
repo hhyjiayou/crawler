@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-2.5.xsd" default-lazy-init="true">
+
+    <!-- 总管理类 如果将lazy-init='false'那么容器启动就会执行调度程序  -->
+    <bean id="startQuertz" lazy-init="false" autowire="no" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean="addCommentDetectorJob" />
+            </list>
+        </property>
+    </bean>
+
+    <!-- 定义调用对象和调用对象的方法 -->
+    <bean id="addCommentDetectorService" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <!-- 调用的类 -->
+        <property name="targetObject">
+            <ref bean="addCommentDetector" />
+        </property>
+        <!-- 调用类中的方法 -->
+        <property name="targetMethod">
+            <value>execute</value>
+        </property>
+    </bean>
+
+
+    <!-- 定义触发时间 -->
+    <bean id="addCommentDetectorJob" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail">
+            <ref bean="addCommentDetectorService" />
+        </property>
+        <!-- cron表达式 -->
+        <property name="cronExpression">
+            <value>*/5 * * * * ?</value>
+        </property>
+    </bean>
+
+</beans>
+

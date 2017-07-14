@@ -1,0 +1,33 @@
+<div class="table_div widget green">
+  <div class="widget-title">
+    <h4>
+      <span class="glyphicon glyphicon-list"aria-hidden="true" ></span>
+      <span class="table_h" ng-bind="mysqlRouterList.title"></span>
+    </h4>
+  </div>
+  <div class="widget-body">
+    <select class="form-control" ng-model="mysqlRouterSearch.searchKey.managerId" ng-options="rs.manager_id as rs.manager_name for rs in mysqlRouterSearch.mysqlCluster">
+      <option value="">选择MySQL集群</option>
+    </select>
+    <input type="text" class="form-control" id="exampleInputEmail3" placeholder="APPID" ng-model="mysqlRouterSearch.searchKey.appId">
+    <div class="table-warp">
+      <div mi-Tablehead head-content="mysqlRouterList.thead"></div>
+      <div class="table-body">
+        <table class="table table-striped mysqlRouterTable">
+          <tbody>
+            <tr ng-repeat="li in mysqlRouterListPage[curPage-1]">
+              <td class="td_redisRouterAppName"><span ng-bind="li.app_id"></span><br><span ng-bind="li.app_name"></span></td>
+              <td class="td_redisRouterrange"><span ng-bind="li.range_begin"></span>-<span ng-bind="li.range_end"></span></td>
+              <td ng-bind="li.manager_name" class="td_redisRoutermanagername"></td>
+              <td class="td_redisRoutershili">
+                  <span ng-bind="li.manager_name"></span><br>
+                  <span ng-bind="li.machine_master_ip"></span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div mi-paging page-content="mysqlRouterListPage" current-page="curPage" current-listpage="showPage"></div>
+  </div>
+</div>

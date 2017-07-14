@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-2.5.xsd"
+	default-lazy-init="false">
+
+	<!-- auto -->
+	<context:annotation-config />
+	<context:component-scan base-package="com.xiaomi.zhibo">
+	</context:component-scan>
+
+	<bean class="com.xiaomi.huyu.blink.scanner.spring.BlinkServiceBeanFactory" />
+
+	<!-- perfcounter -->
+	<context:component-scan base-package="com.xiaomi.rose.perfcounter.controllers" />
+	<context:component-scan base-package="com.xiaomi.rose.perfcounter.interceptor">
+		<context:include-filter type="regex"
+								expression=".*Interceptor" />
+	</context:component-scan>
+
+	<!-- xiaomi common perfcounter configuration -->
+	<bean id="perfCounterConfiguration" class="com.xiaomi.rose.perfcounter.PerfCounterConfiguration">
+		<property name="groupName" value="newsfeed"></property>
+		<property name="allowedIp">
+			<set>
+				<value>127.0.0.1</value>
+				<value>192.168.1.</value>
+				<value>10.235.</value>
+				<value>10.0.</value>
+				<value>10.20.</value>
+				<value>10.</value>
+			</set>
+		</property>
+	</bean>
+
+
+	<!--bean id="activityQuartz" lazy-init="false" autowire="no" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref bean="getListJobCron" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="getListJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject">
+			<ref bean="getListTask" />
+		</property>
+		<property name="targetMethod">
+			<value>execute</value>
+		</property>
+	</bean>
+	<bean id="getListJobCron" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail">
+			<ref bean="getListJob" />
+		</property>
+		<property name="cronExpression">
+			<value>* * * * * ?</value>
+		</property>
+	</bean-->
+	
+</beans>

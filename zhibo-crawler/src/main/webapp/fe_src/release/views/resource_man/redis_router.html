@@ -1,0 +1,45 @@
+<div class="table_div widget green">
+  <div class="widget-title">
+    <h4>
+      <span class="glyphicon glyphicon-list"aria-hidden="true" ></span>
+      <span class="table_h" ng-bind="redisRouterList.title"></span>
+    </h4>
+  </div>
+  <div class="widget-body">
+    <select class="form-control" ng-model="redisRouterSearch.searchKey.managerId" ng-options="rs.manager_id as rs.manager_name for rs in redisRouterSearch.redisCluster">
+      <option value="">选择REDIS集群</option>
+    </select>
+    <select class="form-control" ng-model="redisRouterSearch.searchKey.status" ng-options="s.statusId as s.statusName for s in redisRouterSearch.redisStatus">
+      <option value="">选择REDIS实例状态</option>
+    </select>
+    <input type="text" class="form-control" id="exampleInputEmail3" placeholder="APPID" ng-model="redisRouterSearch.searchKey.appId">
+    <div class="table-warp">
+      <div mi-Tablehead head-content="redisRouterList.thead"></div>
+      <div class="table-body">
+        <table class="table table-striped redisRouterTable">
+          <tbody>
+            <tr ng-repeat="li in redisRouterListPage[curPage-1]">
+              <td class="td_redisRouterAppName"><span ng-bind="li.app_id"></span><br><span ng-bind="li.app_name"></span></td>
+              <td class="td_redisRouterrange"><span ng-bind="li.range_begin"></span>-<span ng-bind="li.range_end"></span></td>
+              <td ng-bind="li.manager_name" class="td_redisRoutermanagername"></td>
+              <td class="td_redisRoutershili">
+                <span class="pointer" ng-mouseover="showTips(li.instance_master, 'master_ip_show')" ng-mouseleave="hideTips(li.instance_master, 'master_ip_show')">
+                  {{li.instance_master.instance_host_name}}
+                  <div mi-tooltip ng-show="li.instance_master.master_ip_show" tips-content="li.instance_master.instance_ip + ':' + li.instance_master.instance_port"></div>
+                </span>
+                <span class="label label-primary"><span ng-bind="li.instance_master.instance_size"></span>G</span>
+                <span class="pointer label {{stateMap[li.instance_status].style}}" ng-mouseover="showTips(li, 'showTip')" ng-mouseleave="hideTips(li, 'showTip')">{{li.instance_status}}<div mi-tooltip ng-show="li.showTip" tips-content="stateMap[li.instance_status].infoMsg"></div></span>
+                <br>
+                <span class="pointer" ng-mouseover="showTips(li.instance_slave, 'slave_ip_show')" ng-mouseleave="hideTips(li.instance_slave, 'slave_ip_show')">
+                  {{li.instance_slave.instance_host_name}}
+                  <div mi-tooltip ng-show="li.instance_slave.slave_ip_show" tips-content="li.instance_slave.instance_ip + ':' + li.instance_slave.instance_port"></div>
+                </span><span ng-bind="'/' + li.instance_slave.instance_size + 'G'"></span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div mi-paging page-content="redisRouterListPage" current-page="curPage" current-listpage="showPage"></div>
+  </div>
+</div>

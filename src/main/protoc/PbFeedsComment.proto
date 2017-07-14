@@ -1,0 +1,48 @@
+package com.xiaomi.zhibo.crawler.pb;
+
+message CommentInfo
+{
+required uint64 comment_id = 1;
+required uint64 from_uid = 2;
+required string content = 3;
+required uint64 create_time = 4;
+optional uint64 to_uid = 5;
+optional string from_nickname = 6;
+optional string to_nickname = 7;
+optional uint64 index_ts = 8; //排序时间戳
+optional bool is_good = 9; //优质评论
+}
+message FeedComment
+{
+required string feed_id = 1;
+optional uint64 feed_owner_id = 2;
+optional uint64 total = 3; //总数
+repeated CommentInfo comment_infos = 4;
+optional uint64 max_id = 5; //记录当前feed下的最大评论ID
+}
+//----------s2s start-----------
+//1001: 获取单个Feed的limit条评论
+message GetFeedCommentsRequest
+{
+required string feed_id = 1;
+optional uint32 limit = 2; //0获取全部
+}
+message GetFeedCommentsResponse
+{
+required uint32 err_code = 1;
+optional FeedComment feed_comment = 2;
+}
+
+
+//cmd 1005: 批量删除评论
+message MultiDelCommentReq
+{
+    required string feed_id = 1;
+    repeated uint64 comment_ids = 2;
+}
+
+message MultiDelCommentRsq
+{
+    required uint32 err_code = 1;
+    optional string errMsg = 2;
+}

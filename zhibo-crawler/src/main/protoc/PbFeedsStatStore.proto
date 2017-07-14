@@ -1,0 +1,12 @@
+package com.xiaomi.zhibo.crawler.pb;
+
+
+//APPID:  线上：290035  staging：110047
+
+//Key： STAT_+feedid, 比如STAT_100031_1234556
+
+message FeedsStatStore {
+    optional int64 commentCount=1;//评论数
+    optional int64 viewcount = 2;  //观看人数
+    optional int64 likeCount =3;//赞计数
+}

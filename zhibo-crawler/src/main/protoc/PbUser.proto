@@ -1,0 +1,45 @@
+package com.xiaomi.zhibo.crawler.pb;
+
+
+//商铺类型用户的扩展信息
+message BusinessUserInfo{
+repeated string service_phone = 1; //电话0
+optional string address = 2; //位置
+optional string business_hours = 3; //营业时间
+optional string intro = 4; //简介
+}
+
+message UserInfo{
+ required uint64 zuid =1;
+ optional uint64 avatar =2; //头像
+ optional string nickname=3;//昵称
+ optional string sign=4;//签名
+ optional uint32 gender=5;//性别
+ optional uint32 level=6;//等级
+ optional uint32 badge=7;//徽章
+ optional uint64 updateTime=8;//更新时间，水位
+ repeated uint64 adminUids=9;//管理员
+ optional string certification=10;//认证信息
+ optional uint32 certification_type=11;//认证类型 ，1：新浪微博，2：官方账号，3：推荐认证，4：小米直播认证
+ optional bool isInspector=12;//是否是巡查员
+ optional bool isUploadLog=13;//是否上传日志
+ optional uint32 waiting_certification_type=14;//等待审核的用户认证类型，目前只有4：小米认证 需要审核；审核通过或未通过后waiting_certification_type会置0
+ optional string certification_id=15;//认证绑定信息，如身份证ID，护照，微博账号等
+ optional uint32 real_name_certification_status=16;//实名认证状态，1：审核中  2：实名认证已通过  3:实名认证未通过
+ optional string real_name_certification_id=17;//实名认证通过绑定的信息，如身份证ID，护照，微博账号等
+ optional string birthday=18;//出生年月日，格式为: 1986/02/23
+ optional string cover_photo=19; // 个人主页的封面图片
+ optional uint32 user_type = 20; //默认0表示普通用户，1为商铺类型
+ optional BusinessUserInfo business_user_info = 21; //user_type为1时则有该字段，否则为空
+ optional uint32 seller_status = 22;  //0 普通用户，1 白名单内(可以申请成为卖家) , 2. 正在申请中  3. 申请卖家成功
+}
+
+//获取用户信息
+message MutiGetUserInfoReq{
+ repeated uint64 zuid=1;
+}
+
+message MutiGetUserInfoRsp{
+ required uint32 retCode=1;
+ repeated UserInfo userInfos=2;
+}

@@ -1,0 +1,58 @@
+<div class="table_div widget green">
+  <div class="widget-title">
+    <h4>
+      <span class="glyphicon glyphicon-list"aria-hidden="true" ></span>
+      <span class="table_h" ng-bind="redisClusterTable.title"></span>
+    </h4>
+  </div>
+  <!--<div ng-if="redisClusterData.code != 0">
+    <p ng-bind="errData.errMsg" class="{{errData.className}}"></p>
+    <a type="button" class="btn btn-default btn-lg {{errData.button.big}}">
+      <span class="glyphicon {{errData.button.icon}}" aria-hidden="true"></span>
+      <span ng-bind="errData.button.text"></span>
+    </a>
+  </div>-->
+  <div class="widget-body">
+    <div class="table-warp">
+      <div mi-Tablehead head-content="redisClusterTable.thead"></div>
+      <div class="table-body">
+        <table class="table table-striped" ng-if="redisClusterData.code == 0">
+          <tbody>
+            <tr ng-repeat="clusterD in redisClusterPage[curPage-1]">
+              <td class="td_manager_name">
+                <a ng-href="{{configs.routers.goRedisrouter}}/{{clusterD.manager_id + ' ' + 0 + ' ' + 0}}" ng-bind="clusterD.manager_name"></a>
+              </td>
+              <td class="td_master">
+                <span ng-bind="clusterD.manager_host_name"></span>
+                <span class="label label-primary" ng-bind="clusterD.version"></span><br>
+                <span ng-bind="clusterD.manager_ip + ':' + clusterD.manager_port"></span><br>
+              </td>
+              <td class="td_machine">
+                <a ng-href="{{configs.routers.goRedismachine}}/{{clusterD.manager_id + ' ' + 0}}" ng-bind="clusterD.machine_count"></a>
+              </td>
+              <td class="td_redis">
+                <a ng-href="{{configs.routers.goRedisrouter}}/{{clusterD.manager_id + ' ' + 0 + ' ' + 0}}" ng-bind="clusterD.instance_count"></a>
+                <br>
+                <a ng-href="{{configs.routers.goRedisrouter}}/{{clusterD.manager_id + ' ' + 0 + ' ' + 2}}" class="label label-success">空闲<span ng-bind="clusterD.free_count"></span></a>
+                <a ng-href="{{configs.routers.goRedisrouter}}/{{clusterD.manager_id + ' ' + 0 + ' ' + 3}}" class="label label-danger">异常<span ng-bind="clusterD.error_count"></span></a>
+                <a ng-href="{{configs.routers.goRedisrouter}}/{{clusterD.manager_id + ' ' + 0 + ' ' + 4}}" class="label label-warning">迁移中<span ng-bind="clusterD.transfer_count"></span></a>
+              </td>
+              <td class="appId td_apps">
+                <span class="pointer" ng-mouseenter="queryAppId(clusterD.manager_id, clusterD)" ng-mouseleave="hideDialog(clusterD)">
+                  {{clusterD.app_count}}
+                  <div ng-show="clusterD.showDialog" mi-dialog  dialog-content="redisClusterApp"></div>
+                </span>
+              </td>
+              <td class="td_tool">
+                <span ng-click="queryRedisCluster(clusterD.manager_id, clusterD)" title="{{errData.button.text}}" style="text-decoration: none;" class="pointer glyphicon {{errData.button.icon}}" aria-hidden="true" ng-mouseleave="hideRefresh(clusterD)">
+                  <span ng-show="clusterD.refreshMsg" ng-bind="refreshMsg.text" ng-class="refreshMsg.style"></span>
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div mi-paging page-content="redisClusterPage" current-page="curPage" current-listpage="showPage"></div>
+  </div>
+</div>

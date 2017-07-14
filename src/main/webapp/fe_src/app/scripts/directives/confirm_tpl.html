@@ -1,0 +1,17 @@
+<div class="alert-bg">
+    <div class="panel panel-primary alert-panel confirm-panel">
+        <div class="panel-heading clear_float">
+            <h3 class="panel-title left" ng-bind="content.title"></h3>
+        </div>
+        <div class="panel-body">
+            <div class="account-msg-warp">
+                <!--<h3 class="title" ng-bind="content.msg_title"></h3>-->
+                <p class="msg" ng-bind="content.msg"></p>
+            </div>
+            <div class="btns clear_after">
+                <div class="btn left {{content.btns.cancel.className}}" ng-click="cancel()" ng-bind="content.btns.cancel.text"></div>
+                <div class="btn right {{content.btns.ok.className}}" ng-click="ok(content.btns.ok.cb)" ng-bind="content.btns.ok.text"></div>
+            </div>
+        </div>
+    </div>
+</div>

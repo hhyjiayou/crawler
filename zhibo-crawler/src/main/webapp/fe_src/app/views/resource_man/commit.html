@@ -1,0 +1,122 @@
+<div mi-alert alert-obj="alert" ng-if="alert.show"></div>
+<div class="table_div widget green">
+  <div class="widget-title">
+    <h4>
+      <span class="glyphicon glyphicon-list"aria-hidden="true" ></span>
+      <span class="table_h" ng-bind="commitTable.title"></span>
+    </h4>
+  </div>
+
+  <div class="widget-body">
+    <div class="loadcommit-warp">
+      <div class="search-warp clearfix">
+        <h3 class="title">加载已有评论</h3>
+        <div class="left input-warp">
+          <span>Feed_ID：</span>
+          <input type="text" class="form-control ng-pristine ng-untouched ng-valid" placeholder="请填写feedId" ng-model="loadcommitParams.feedId">
+        </div>
+        <div class="left input-warp">
+          <span>Feed_Owner_ID：</span>
+          <input type="text" class="form-control ng-pristine ng-untouched ng-valid" placeholder="请填写feedOwnerId" ng-model="loadcommitParams.feedOwnerId">
+        </div>
+        <div class="btn loadCommit" ng-click="loadCommit()" ng-disabled="loading">加载评论</div>
+      </div>
+      <div class="table-warp" ng-show="allComments.length > 0">
+        <div mi-Tablehead head-content="commitTableLoad.thead" del-commit="deleteCommit()" all-check="allcheck" click-all="clickAll()"></div>
+        <div class="table-body">
+          <table class="table table-striped">
+            <tbody>
+            <tr ng-repeat="commit in loadcommitData">
+              <td class="td_Fifteen">
+                <span ng-bind="$index+1"></span>
+              </td>
+              <td class="td_74">
+                <span ng-bind="commit.content" class="commit_content"></span><br>
+              </td>
+              <td class="td_Fifteen">
+                <span ng-bind="commit.uid"></span>
+              </td>
+              <td class="td_five">
+               <span class="top commit-edit" ng-click="top(commit)" ng-if="!commit.is_good">置顶</span>
+               <span class="isTop" ng-if="commit.is_good">已置顶</span>
+              </td>
+              <td class="td_five">
+                <input type="checkbox" ng-model="commit.isChecked" ng-checked="allcheck"/>
+              </td>
+                <td class="td_five">
+
+                </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- 分页组件 -->
+      <div mi-pagingcommit current-page="loadcommitParams.start" page-count="loadcommitParams.pages" ng-if="allComments.length > 0"></div>
+    </div>
+  </div>
+
+  <div class="widget-body">
+    <div class="pullcommit-warp">
+      <div class="search-warp">
+        <h3 class="title">评论爬取目标源</h3>
+        <div>
+          <span>爬取地址：</span>
+          <input type="text" class="form-control ng-pristine ng-untouched ng-valid" placeholder="请填写爬取地址" ng-model="pullcommitParams.crawlerUrl">
+        </div>
+        <div class="statusTab-warp search-task search-kv">
+          <span>网站类型：</span>
+          <input type="radio" ng-model="pullcommitParams.netType" name="_type" value="1" class="ng-pristine ng-untouched ng-valid">网易
+          <span style="margin-left: 10px; margin-right: 10px;"></span>
+          <input type="radio" ng-model="pullcommitParams.netType" name="_type" value="2" class="ng-pristine ng-untouched ng-valid">新浪
+          <span style="margin-left: 10px; margin-right: 10px;"></span>
+          <input type="radio" ng-model="pullcommitParams.netType" name="_type" value="3" class="ng-pristine ng-untouched ng-valid">凤凰网
+          <span style="margin-left: 10px; margin-right: 10px;"></span>
+          <input type="radio" ng-model="pullcommitParams.netType" name="_type" value="4" class="ng-pristine ng-untouched ng-valid">搜狐
+          <span style="margin-left: 10px; margin-right: 10px;"></span>
+          <input type="radio" ng-model="pullcommitParams.netType" name="_type" value="5" class="ng-pristine ng-untouched ng-valid">腾讯
+          <span style="margin-left: 10px; margin-right: 10px;"></span>
+          <input type="radio" ng-model="pullcommitParams.netType" name="_type" value="6" class="ng-pristine ng-untouched ng-valid">今日头条
+          <span style="margin-left: 10px; margin-right: 10px;"></span>
+          <input type="radio" ng-model="pullcommitParams.netType" name="_type" value="7" class="ng-pristine ng-untouched ng-valid">微博
+
+        </div>
+        <div class="statusTab-warp search-task search-kv">
+          <span>评论类型：</span>
+          <input type="checkbox" ng-model="pullcommitParams.postBarType.hot" name="_type" value="1" class="ng-pristine ng-untouched ng-valid">热门评论
+          <span style="margin-left: 10px; margin-right: 10px;"></span>
+          <input type="checkbox" ng-model="pullcommitParams.postBarType.news" name="_type" value="2" class="ng-pristine ng-untouched ng-valid">最新评论
+          <div class="toutiaoTip" ng-show="toutiaoTip"><span>Tip:</span>今日头条爬取的评论是没有热门评论和最新评论之分</div>
+        </div>
+        <div class="btn" ng-click="pullCommit()" ng-disabled="loading">确认爬取</div>
+        <div class="btn" ng-click="autoPullCommit()" ng-disabled="loading">评论自动抓取</div>
+      </div>
+      <div class="table-warp" ng-show="commitData.length > 0">
+        <div mi-Tablehead head-content="commitTable.thead"></div>
+        <div class="table-body">
+          <table class="table table-striped">
+            <tbody>
+              <tr ng-repeat="commit in commitData">
+                <td class="td_Fifteen">
+                  <span ng-bind="$index+1"></span>
+                </td>
+                <td class="td_55">
+                  <span ng-bind="commit.content" class="commit_content"></span><br>
+                </td>
+                <td class="td_Fifteen">
+                  <span ng-bind="commit.uid"></span>
+                </td>
+                <td class="td_Fifteen">
+                  <span class="addcommit commit-edit" ng-click="addCommit(commit)">添加</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- 分页组件 -->
+      <div mi-paging current-page="pullcommitParams.start" page-count="pullcommitParams.pages" ng-if="commitData.length > 0" next-btn="nextBtn"></div>
+    </div>
+  </div>
+</div>
+<div mi-confirm ng-show="confirmContent.confirmShow" confirm-content="confirmContent" on-confirmaddcommit="confirmaddcommit(commit)" on-confirmdelcommit="confirmdelcommit()"></div>

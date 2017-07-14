@@ -1,0 +1,59 @@
+<div class="table_div widget green">
+  <div class="widget-title">
+    <h4>
+      <span class="glyphicon glyphicon-list"aria-hidden="true" ></span>
+      <span class="table_h" ng-bind="redisMachineList.title"></span>
+    </h4>
+  </div>
+  <div class="widget-body">
+    <select class="form-control" ng-model="redisMachineSearch.searchKey.managerId" ng-options="rs.manager_id as rs.manager_name for rs in redisMachineSearch.redisCluster">
+      <option value="">选择REDIS集群</option>
+    </select>
+    <input type="text" class="form-control" id="exampleInputEmail3" placeholder="主/从机器名或IP" ng-model="redisMachineSearch.searchKey.ip">
+    <div class="table-warp machineTable">
+      <div mi-Tablehead head-content="redisMachineList.thead"></div>
+      <div class="table-body">
+        <table class="table table-striped redisRouterTable">
+          <tbody>
+            <tr ng-repeat="redisMachine in redisMachineListPage[curPage-1]">
+              <td class="td_seventeen"><span ng-bind="redisMachine.manager_name"></span></td>
+              <td class="td_twentytwo">
+                  <ul class="ip_ul">
+                    <span ng-bind="redisMachine.master_host_name"></span>
+                    <li ng-bind="'主IP：'  + redisMachine.master_ip"></li>
+                  </ul>
+                  <ul class="ip_ul">
+                    <span ng-bind="redisMachine.slave_host_name"></span>
+                    <li ng-bind="'从IP：'  + redisMachine.slave_ip"></li>
+                  </ul>
+              </td>
+              <td class="td_Twelve">
+                <span ng-bind="redisMachine.instance_count"></span>
+              </td>
+              <td class="td_fiftyone innerTable">
+                <div mi-Tablehead head-content="redisMachineList.redisInstantiation"></div>
+                <div class="table-body inner-table">
+                  <table class="table table-striped table_no_border">
+                    <tbody>
+                      <tr ng-repeat="li in redisMachine.instance_details">
+                        <td class="td_Fifteen" ng-bind="$index+1"></td>
+                        <td class="td_seventeen port_font" ng-bind="li.instance_master.instance_port"></td>
+                        <td class="td_seventeen" ng-bind="li.instance_master.instance_size + 'G'"></td>
+                        <td class="td_seventeen">
+                          <span class="pointer label {{stateMap[li.instance_status].styleColor}}" ng-mouseover="showTips(li, 'showTip')" ng-mouseleave="hideTips(li, 'showTip')">{{li.instance_status}}<div mi-tooltip ng-show="li.showTip" tips-content="stateMap[li.instance_status].infoMsg"></div></span>
+                        </td>
+                        <td class="td_seventeen" ng-bind="li.app_id"></td>
+                        <td class="td_seventeen" ng-bind="li.range_begin + '-' + li.range_end"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div mi-paging page-content="redisMachineListPage" current-page="curPage" current-listpage="showPage"></div>
+  </div>
+</div>
